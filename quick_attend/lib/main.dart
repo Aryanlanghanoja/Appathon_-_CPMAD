@@ -26,10 +26,17 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
+<<<<<<< Updated upstream
       home: const SplashScreen(),
           routes: {
         '/home': (context) =>  HomeScreen(), // Define your home screen here
       },
+=======
+      home: const ClientRegistrationScreen(),
+      //     routes: {
+      //   '/home': (context) => const RoleSelectionScreen(), // Define your home screen here
+      // },
+>>>>>>> Stashed changes
     );
   }
 }

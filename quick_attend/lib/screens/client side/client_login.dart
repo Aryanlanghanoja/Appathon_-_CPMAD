@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class AdminLoginScreen extends StatefulWidget {
-  const AdminLoginScreen({super.key});
+class ClientLoginScreen extends StatefulWidget {
+  const ClientLoginScreen({super.key});
 
   @override
-  State<AdminLoginScreen> createState() => _AdminLoginScreenState();
+  State<ClientLoginScreen> createState() => _ClientLoginScreenState();
 }
 
-class _AdminLoginScreenState extends State<AdminLoginScreen> {
+class _ClientLoginScreenState extends State<ClientLoginScreen> {
   bool _obscurePassword = true;
 
   @override
@@ -40,7 +40,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
               // Faculty number text field
               TextField(
                 decoration: InputDecoration(
-                  labelText: 'Enter your Faculty No.',
+                  labelText: 'Enter your Enrollment No.',
                   filled: true,
                   fillColor: Colors.grey[200],
                   contentPadding:
