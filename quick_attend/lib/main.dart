@@ -1,10 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:quick_attend/firebase_options.dart';
-import 'package:quick_attend/screens/client%20side/client_home_screen.dart';
-import 'package:quick_attend/screens/client%20side/client_registration.dart';
-import 'package:quick_attend/screens/role_distibution.dart';
-// import 'package:quick_attend/screens/home_screen.dart';
+import 'package:quick_attend/screens/client%20side/client_schedule_screen.dart';
 import 'package:quick_attend/screens/splash_screen.dart';
 
 void main() async {
@@ -28,7 +25,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: const SplashScreen(),
           routes: {
-        '/home': (context) =>  HomeScreen(), // Define your home screen here
+        '/home': (context) =>  SchedulePage(), // Define your home screen here
       },
     );
   }
