@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quick_attend/screens/admin%20side/admin_login.dart';
 
 void main() {
   runApp(const MyApp());
@@ -50,7 +51,11 @@ class RoleSelectionScreen extends StatelessWidget {
             // Faculty button
             ElevatedButton(
               onPressed: () {
-                // Define faculty button action
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const AdminLoginScreen()),
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.grey[300],
@@ -66,7 +71,7 @@ class RoleSelectionScreen extends StatelessWidget {
             // Student button
             ElevatedButton(
               onPressed: () {
-                // Define student button action
+                
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.grey[300],
