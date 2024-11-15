@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:quick_attend/screens/admin%20side/admin_class_add_screen.dart';
 import 'package:table_calendar/table_calendar.dart';
-// Make sure to import the ClassDetailsPage
 
 class SchedulePage extends StatefulWidget {
+  const SchedulePage({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _SchedulePageState createState() => _SchedulePageState();
 }
 
@@ -15,14 +17,14 @@ class _SchedulePageState extends State<SchedulePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF5F5F5),
+      backgroundColor: const Color(0xFFF5F5F5),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 20),
-            Row(
+            const SizedBox(height: 20),
+            const Row(
               children: [
                 CircleAvatar(
                   radius: 30,
@@ -52,7 +54,7 @@ class _SchedulePageState extends State<SchedulePage> {
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             // Horizontal Date Row with Date and Day
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
@@ -63,23 +65,23 @@ class _SchedulePageState extends State<SchedulePage> {
                     child: Container(
                       width: 60, // Width for each box
                       decoration: BoxDecoration(
-                        color: Color(0xFFD9D9D9), // Background color for each day
+                        color: const Color(0xFFD9D9D9), // Background color for each day
                         borderRadius: BorderRadius.circular(12), // Rounded corners
                       ),
-                      padding: EdgeInsets.symmetric(vertical: 8), // Padding for text
+                      padding: const EdgeInsets.symmetric(vertical: 8), // Padding for text
                       child: Column(
                         children: [
                           Text(
                             '${17 + index}', // Display dynamic date starting from 17
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 18,
                             ),
                           ),
-                          SizedBox(height: 4),
+                          const SizedBox(height: 4),
                           Text(
                             ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][index % 7], // Day name
-                            style: TextStyle(color: Colors.grey),
+                            style: const TextStyle(color: Colors.grey),
                           ),
                         ],
                       ),
@@ -88,8 +90,8 @@ class _SchedulePageState extends State<SchedulePage> {
                 }),
               ),
             ),
-            SizedBox(height: 20),
-            Center(
+            const SizedBox(height: 20),
+            const Center(
               child: Text(
                 "Select date to know your attendance",
                 style: TextStyle(
@@ -98,7 +100,7 @@ class _SchedulePageState extends State<SchedulePage> {
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             // Calendar widget
             TableCalendar(
               firstDay: DateTime.utc(2020, 1, 1),
@@ -124,12 +126,12 @@ class _SchedulePageState extends State<SchedulePage> {
                   ),
                 );
               },
-              headerStyle: HeaderStyle(
+              headerStyle: const HeaderStyle(
                 formatButtonVisible: false,
                 titleCentered: true,
               ),
               calendarStyle: CalendarStyle(
-                todayDecoration: BoxDecoration(
+                todayDecoration: const BoxDecoration(
                   color: Colors.teal,
                   shape: BoxShape.circle,
                 ),

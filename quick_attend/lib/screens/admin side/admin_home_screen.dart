@@ -5,6 +5,7 @@ class AdminHomeScreen extends StatefulWidget {
   const AdminHomeScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _AdminHomeScreenState createState() => _AdminHomeScreenState();
 }
 
@@ -13,7 +14,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
 
   // Define each screen widget for the BottomNavigationBar items
   final List<Widget> _screens = [
-    HomeTab(),
+    const HomeTab(),
     ReportTab(),
     SchedulePage(),
     ProfileTab(),
@@ -63,6 +64,8 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
 
 // HomeTab screen with the original content
 class HomeTab extends StatelessWidget {
+  const HomeTab({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
