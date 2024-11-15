@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:quick_attend/screens/admin%20side/admin_class_add_screen.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'class_details_page.dart'; // Make sure to import the ClassDetailsPage
 
 class SchedulePage extends StatefulWidget {
   @override
@@ -14,28 +16,6 @@ class _SchedulePageState extends State<SchedulePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFF5F5F5),
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bar_chart),
-            label: 'Report',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_today),
-            label: 'Schedule',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-        selectedItemColor: Colors.teal,
-        unselectedItemColor: Colors.grey,
-      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         child: Column(
@@ -132,6 +112,17 @@ class _SchedulePageState extends State<SchedulePage> {
                   _selectedDay = selectedDay;
                   _focusedDay = focusedDay;
                 });
+
+                // Navigate to ClassDetailsPage when any date is selected
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      var classDetailsPage = ClassDetailsPage(selectedDay: selectedDay);
+                      return classDetailsPage;
+                    }, // Pass the selected date
+                  ),
+                );
               },
               headerStyle: HeaderStyle(
                 formatButtonVisible: false,

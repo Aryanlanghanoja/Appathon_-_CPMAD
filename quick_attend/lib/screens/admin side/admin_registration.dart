@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:quick_attend/screens/admin%20side/admin_login.dart';
 
 class AdminRegistrationScreen extends StatefulWidget {
   const AdminRegistrationScreen({Key? key}) : super(key: key);
@@ -172,18 +173,23 @@ class _AdminRegistrationScreenState extends State<AdminRegistrationScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text("Already have an Account? "),
-                      TextButton(
-                        onPressed: () {
-                          // Navigate to login screen
-                        },
-                        child: const Text(
-                          "Login",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const AdminLoginScreen(),
                         ),
+                      );
+                    },
+                    child: const Text(
+                      'Login',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
                       ),
+                    ),
+                  ),
                     ],
                   ),
                 ],

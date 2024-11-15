@@ -8,9 +8,17 @@ class ClassDetailsPage extends StatelessWidget {
   final TextEditingController batchNameController = TextEditingController();
   final TextEditingController locationController = TextEditingController();
   final TextEditingController numberOfStudentsController = TextEditingController();
+  
+  // Constructor to accept the selected date
+  final DateTime selectedDay;
+  
+  ClassDetailsPage({required this.selectedDay});
 
   @override
   Widget build(BuildContext context) {
+    // Format the selectedDay to display it in the text field
+    dateController.text = "${selectedDay.year}-${selectedDay.month}-${selectedDay.day}";
+    
     return Scaffold(
       backgroundColor: Color(0xFFF5F5F5),
       bottomNavigationBar: BottomNavigationBar(
@@ -157,7 +165,7 @@ class ClassDetailsPage extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 16),
-                    // Date Field
+                    // Date Field (This field is pre-filled with the selected date)
                     TextField(
                       controller: dateController,
                       decoration: InputDecoration(
@@ -171,7 +179,7 @@ class ClassDetailsPage extends StatelessWidget {
                         FocusScope.of(context).requestFocus(FocusNode());
                         DateTime? pickedDate = await showDatePicker(
                           context: context,
-                          initialDate: DateTime.now(),
+                          initialDate: selectedDay, // Default to the selected date
                           firstDate: DateTime(2000),
                           lastDate: DateTime(2101),
                         );

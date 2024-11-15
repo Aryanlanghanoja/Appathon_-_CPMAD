@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:quick_attend/screens/admin%20side/admin_registration.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'admin_home_screen.dart';
+import 'admin_registration.dart';
 
 class AdminLoginScreen extends StatefulWidget {
   const AdminLoginScreen({super.key});
@@ -9,7 +12,58 @@ class AdminLoginScreen extends StatefulWidget {
 }
 
 class _AdminLoginScreenState extends State<AdminLoginScreen> {
+  final TextEditingController _facultyNoController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   bool _obscurePassword = true;
+
+ 
+Future<void> _loginAdmin() async {
+  final facultyNo = _facultyNoController.text;
+  final password = _passwordController.text;
+
+  try {
+    // Fetch the document from Firestore where the faculty_no matches
+    final snapshot = await FirebaseFirestore.instance
+        .collection('admin_login')
+        .where('faculty_no', isEqualTo: facultyNo)
+        .get();
+
+    if (snapshot.docs.isNotEmpty) {
+      // Get the first matching document
+      final userDoc = snapshot.docs.first;
+
+      // Check if the password matches
+      if (userDoc['password'] == password) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Login successful!')),
+        );
+
+        // Navigate to AdminHomeScreen
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => AdminHomeScreen()),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Incorrect password')),
+        );
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Faculty number not found')),
+      );
+    }
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Login failed: $e')),
+    );
+  }
+}
+  void _showErrorMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +75,6 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Display the logo image
               Image.asset(
                 'assets/Images/Logo.jpg',
                 width: 150,
@@ -29,7 +82,6 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                 fit: BoxFit.cover,
               ),
               const SizedBox(height: 20),
-              // Display the login prompt
               const Text(
                 'Log In to your Account',
                 style: TextStyle(
@@ -38,8 +90,8 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-              // Faculty number text field
               TextField(
+                controller: _facultyNoController,
                 decoration: InputDecoration(
                   labelText: 'Enter your Faculty No.',
                   filled: true,
@@ -53,8 +105,8 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                 ),
               ),
               const SizedBox(height: 16),
-              // Password text field
               TextField(
+                controller: _passwordController,
                 obscureText: _obscurePassword,
                 decoration: InputDecoration(
                   labelText: 'Password',
@@ -68,9 +120,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                   ),
                   suffixIcon: IconButton(
                     icon: Icon(
-                      _obscurePassword
-                          ? Icons.visibility
-                          : Icons.visibility_off,
+                      _obscurePassword ? Icons.visibility : Icons.visibility_off,
                     ),
                     onPressed: () {
                       setState(() {
@@ -80,26 +130,9 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
-              // Forgot Password link
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: () {
-                    // Define forgot password action
-                  },
-                  child: const Text(
-                    'Forgot Password?',
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                ),
-              ),
               const SizedBox(height: 20),
-              // Login button
               ElevatedButton(
-                onPressed: () {
-                  // Define login button action
-                },
+                onPressed: _loginAdmin,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.teal,
                   foregroundColor: Colors.white,
@@ -111,19 +144,18 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                 child: const Text('Login'),
               ),
               const SizedBox(height: 20),
-              // Create Account link
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text("Don’t have an Account? "),
                   TextButton(
                     onPressed: () {
-                      // Define create account action
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const AdminRegistrationScreen()),
-                      ); 
+                          builder: (context) => const AdminRegistrationScreen(),
+                        ),
+                      );
                     },
                     child: const Text(
                       'Create an Account',
