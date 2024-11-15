@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quick_attend/screens/admin%20side/admin_login.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AdminRegistrationScreen extends StatefulWidget {
   const AdminRegistrationScreen({Key? key}) : super(key: key);
@@ -10,12 +10,38 @@ class AdminRegistrationScreen extends StatefulWidget {
 }
 
 class _AdminRegistrationScreenState extends State<AdminRegistrationScreen> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _facultyNoController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
   bool _obscurePassword = true;
+
+  Future<void> registerAdmin() async {
+    try {
+      await FirebaseFirestore.instance.collection('admin_login').add({
+        'name': _nameController.text,
+        'faculty_no': _facultyNoController.text,
+        'email': _emailController.text,
+        'password': _passwordController.text, // Hash in production
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Registration successful!')),
+      );
+
+      // Navigate to Login Screen (implement the logic for login screen navigation here)
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white, // Set background color to white
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Center(
           child: Padding(
@@ -45,6 +71,7 @@ class _AdminRegistrationScreenState extends State<AdminRegistrationScreen> {
 
                   // Name TextField
                   TextField(
+                    controller: _nameController,
                     decoration: InputDecoration(
                       labelText: 'Name',
                       filled: true,
@@ -59,8 +86,9 @@ class _AdminRegistrationScreenState extends State<AdminRegistrationScreen> {
                   ),
                   const SizedBox(height: 16),
 
-                  // Enrollment No. TextField
+                  // Faculty No. TextField
                   TextField(
+                    controller: _facultyNoController,
                     decoration: InputDecoration(
                       labelText: 'Faculty No.',
                       filled: true,
@@ -77,6 +105,7 @@ class _AdminRegistrationScreenState extends State<AdminRegistrationScreen> {
 
                   // Email TextField
                   TextField(
+                    controller: _emailController,
                     decoration: InputDecoration(
                       labelText: 'Email',
                       filled: true,
@@ -93,6 +122,7 @@ class _AdminRegistrationScreenState extends State<AdminRegistrationScreen> {
 
                   // Password TextField
                   TextField(
+                    controller: _passwordController,
                     obscureText: _obscurePassword,
                     decoration: InputDecoration(
                       labelText: 'Password',
@@ -122,9 +152,7 @@ class _AdminRegistrationScreenState extends State<AdminRegistrationScreen> {
 
                   // Register Button
                   ElevatedButton(
-                    onPressed: () {
-                      // Handle registration logic here
-                    },
+                    onPressed: registerAdmin,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.teal,
                       foregroundColor: Colors.white,
@@ -145,12 +173,6 @@ class _AdminRegistrationScreenState extends State<AdminRegistrationScreen> {
                       TextButton(
                         onPressed: () {
                           // Navigate to login screen
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const AdminLoginScreen()),
-                          ); 
                         },
                         child: const Text(
                           "Login",
