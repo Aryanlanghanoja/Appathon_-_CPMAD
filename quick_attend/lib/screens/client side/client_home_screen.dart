@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       bottomNavigationBar: BottomNavigationBar(
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
@@ -32,8 +34,8 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 20),
-            Row(
+            const SizedBox(height: 20),
+            const Row(
               children: [
                 CircleAvatar(
                   radius: 30,
@@ -63,7 +65,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             // Date Picker Row with Boxed Days and More Width
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
@@ -74,23 +76,23 @@ class HomeScreen extends StatelessWidget {
                     child: Container(
                       width: 60, // Set fixed width for more space
                       decoration: BoxDecoration(
-                        color: Color(0xFFD9D9D9), // Background color for each day
+                        color: const Color(0xFFD9D9D9), // Background color for each day
                         borderRadius: BorderRadius.circular(12), // Rounded corners
                       ),
-                      padding: EdgeInsets.symmetric(vertical: 8), // Adjusted padding
+                      padding: const EdgeInsets.symmetric(vertical: 8), // Adjusted padding
                       child: Column(
                         children: [
                           Text(
                             '${17 + index}', // Sample dates
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 18,
                             ),
                           ),
-                          SizedBox(height: 4),
+                          const SizedBox(height: 4),
                           Text(
                             ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][index % 7],
-                            style: TextStyle(color: Colors.grey),
+                            style: const TextStyle(color: Colors.grey),
                           ),
                         ],
                       ),
@@ -99,28 +101,28 @@ class HomeScreen extends StatelessWidget {
                 }),
               ),
             ),
-            SizedBox(height: 20),
-            Text(
+            const SizedBox(height: 20),
+            const Text(
               "Today's Classes",
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             // Class List with Rounded Capsules
             Expanded(
               child: ListView.builder(
                 itemCount: 4,
                 itemBuilder: (context, index) {
                   return Container(
-                    margin: EdgeInsets.only(bottom: 10),
+                    margin: const EdgeInsets.only(bottom: 10),
                     decoration: BoxDecoration(
                       color: Color(0xFFD9D9D9), // Set background color to D9D9D9
                       borderRadius: BorderRadius.circular(30), // High borderRadius for capsule shape
                       border: Border.all(color: Colors.black26),
                     ),
-                    child: ListTile(
+                    child: const ListTile(
                       leading: CircleAvatar(
                         backgroundColor: Colors.teal,
                         child: Text(
