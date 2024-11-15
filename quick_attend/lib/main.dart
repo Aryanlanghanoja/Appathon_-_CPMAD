@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:quick_attend/firebase_options.dart';
 import 'package:quick_attend/screens/client%20side/client_registration.dart';
 import 'package:quick_attend/screens/role_distibution.dart';
-// import 'package:quick_attend/screens/home_screen.dart';
 import 'package:quick_attend/screens/splash_screen.dart';
 
 void main() async {
