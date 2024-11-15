@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "382574240119",
+    "project_id": "quick-attend-f03a9",
+    "storage_bucket": "quick-attend-f03a9.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:382574240119:android:859868de5866fb4c2e0172",
+        "android_client_info": {
+          "package_name": "com.example.quick_attend"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjk9CWFJoJPAFhkF_btX931xxEVwKOvd4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
