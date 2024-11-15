@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quick_attend/screens/admin%20side/admin_registration.dart';
 
 class AdminLoginScreen extends StatefulWidget {
   const AdminLoginScreen({super.key});
@@ -118,6 +119,11 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                   TextButton(
                     onPressed: () {
                       // Define create account action
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const AdminRegistrationScreen()),
+                      ); 
                     },
                     child: const Text(
                       'Create an Account',

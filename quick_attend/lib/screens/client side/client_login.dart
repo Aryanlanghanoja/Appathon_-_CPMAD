@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quick_attend/screens/client%20side/client_registration.dart';
 
 class ClientLoginScreen extends StatefulWidget {
   const ClientLoginScreen({super.key});
@@ -118,6 +119,11 @@ class _ClientLoginScreenState extends State<ClientLoginScreen> {
                   TextButton(
                     onPressed: () {
                       // Define create account action
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ClientRegistrationScreen()),
+                      ); 
                     },
                     child: const Text(
                       'Create an Account',
