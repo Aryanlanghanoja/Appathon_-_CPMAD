@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:quick_attend/screens/client%20side/client_login.dart';
 
 class ClientRegistrationScreen extends StatefulWidget {
@@ -10,12 +11,55 @@ class ClientRegistrationScreen extends StatefulWidget {
 }
 
 class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _enrollNoController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
   bool _obscurePassword = true;
+
+  Future<void> registerAdmin() async {
+    // Basic validation
+    if (_nameController.text.isEmpty ||
+        _enrollNoController.text.isEmpty ||
+        _emailController.text.isEmpty ||
+        _passwordController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please fill in all fields.')),
+      );
+      return;
+    }
+
+    try {
+      await FirebaseFirestore.instance.collection('client_login').add({
+        'name': _nameController.text.trim(),
+        'enroll_no': _enrollNoController.text.trim(),
+        'email': _emailController.text.trim(),
+        'password': _passwordController.text.trim(), // Hash in production
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Registration successful!')),
+      );
+
+      // Navigate to Login Screen after successful registration
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const ClientLoginScreen(),
+        ),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: ${e.toString()}')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white, // Set background color to white
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Center(
           child: Padding(
@@ -45,6 +89,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
 
                   // Name TextField
                   TextField(
+                    controller: _nameController,
                     decoration: InputDecoration(
                       labelText: 'Name',
                       filled: true,
@@ -59,10 +104,11 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                   ),
                   const SizedBox(height: 16),
 
-                  // Enrollment No. TextField
+                  // Faculty No. TextField
                   TextField(
+                    controller: _enrollNoController,
                     decoration: InputDecoration(
-                      labelText: 'Enrollment No.',
+                      labelText: 'Enroll No.',
                       filled: true,
                       fillColor: Colors.grey[200],
                       contentPadding: const EdgeInsets.symmetric(
@@ -77,6 +123,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
 
                   // Email TextField
                   TextField(
+                    controller: _emailController,
                     decoration: InputDecoration(
                       labelText: 'Email',
                       filled: true,
@@ -93,6 +140,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
 
                   // Password TextField
                   TextField(
+                    controller: _passwordController,
                     obscureText: _obscurePassword,
                     decoration: InputDecoration(
                       labelText: 'Password',
@@ -122,9 +170,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
 
                   // Register Button
                   ElevatedButton(
-                    onPressed: () {
-                      // Define login button action
-                    },
+                    onPressed: registerAdmin,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.teal,
                       foregroundColor: Colors.white,
@@ -147,15 +193,16 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    const ClientLoginScreen()),
-                          ); 
+                              builder: (context) =>
+                                  const ClientLoginScreen(),
+                            ),
+                          );
                         },
                         child: const Text(
-                          "Login",
+                          'Login',
                           style: TextStyle(
-                            color: Colors.black,
                             fontWeight: FontWeight.bold,
+                            color: Colors.black,
                           ),
                         ),
                       ),

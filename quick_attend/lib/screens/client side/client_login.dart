@@ -1,15 +1,70 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:quick_attend/screens/client%20side/client_home_screen.dart';
 import 'package:quick_attend/screens/client%20side/client_registration.dart';
+
 
 class ClientLoginScreen extends StatefulWidget {
   const ClientLoginScreen({super.key});
 
   @override
-  State<ClientLoginScreen> createState() => _ClientLoginScreenState();
+  State<ClientLoginScreen> createState() => _AdminLoginScreenState();
 }
 
-class _ClientLoginScreenState extends State<ClientLoginScreen> {
+class _AdminLoginScreenState extends State<ClientLoginScreen> {
+  final TextEditingController _enrollNoController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   bool _obscurePassword = true;
+
+ 
+Future<void> _loginAdmin() async {
+  final enrollNo = _enrollNoController.text;
+  final password = _passwordController.text;
+
+  try {
+    // Fetch the document from Firestore where the faculty_no matches
+    final snapshot = await FirebaseFirestore.instance
+        .collection('client_login')
+        .where('enroll_no', isEqualTo: enrollNo)
+        .get();
+
+    if (snapshot.docs.isNotEmpty) {
+      // Get the first matching document
+      final userDoc = snapshot.docs.first;
+
+      // Check if the password matches
+      if (userDoc['password'] == password) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Login successful!')),
+        );
+
+        // Navigate to AdminHomeScreen
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomeScreen()),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Incorrect password')),
+        );
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Faculty number not found')),
+      );
+    }
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Login failed: $e')),
+    );
+  }
+}
+  void _showErrorMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +76,6 @@ class _ClientLoginScreenState extends State<ClientLoginScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Display the logo image
               Image.asset(
                 'assets/Images/Logo.jpg',
                 width: 150,
@@ -29,7 +83,6 @@ class _ClientLoginScreenState extends State<ClientLoginScreen> {
                 fit: BoxFit.cover,
               ),
               const SizedBox(height: 20),
-              // Display the login prompt
               const Text(
                 'Log In to your Account',
                 style: TextStyle(
@@ -38,10 +91,10 @@ class _ClientLoginScreenState extends State<ClientLoginScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-              // Faculty number text field
               TextField(
+                controller: _enrollNoController,
                 decoration: InputDecoration(
-                  labelText: 'Enter your Enrollment No.',
+                  labelText: 'Enter your Enroll No.',
                   filled: true,
                   fillColor: Colors.grey[200],
                   contentPadding:
@@ -53,8 +106,8 @@ class _ClientLoginScreenState extends State<ClientLoginScreen> {
                 ),
               ),
               const SizedBox(height: 16),
-              // Password text field
               TextField(
+                controller: _passwordController,
                 obscureText: _obscurePassword,
                 decoration: InputDecoration(
                   labelText: 'Password',
@@ -68,9 +121,7 @@ class _ClientLoginScreenState extends State<ClientLoginScreen> {
                   ),
                   suffixIcon: IconButton(
                     icon: Icon(
-                      _obscurePassword
-                          ? Icons.visibility
-                          : Icons.visibility_off,
+                      _obscurePassword ? Icons.visibility : Icons.visibility_off,
                     ),
                     onPressed: () {
                       setState(() {
@@ -80,26 +131,9 @@ class _ClientLoginScreenState extends State<ClientLoginScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
-              // Forgot Password link
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: () {
-                    // Define forgot password action
-                  },
-                  child: const Text(
-                    'Forgot Password?',
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                ),
-              ),
               const SizedBox(height: 20),
-              // Login button
               ElevatedButton(
-                onPressed: () {
-                  // Define login button action
-                },
+                onPressed: _loginAdmin,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.teal,
                   foregroundColor: Colors.white,
@@ -111,19 +145,18 @@ class _ClientLoginScreenState extends State<ClientLoginScreen> {
                 child: const Text('Login'),
               ),
               const SizedBox(height: 20),
-              // Create Account link
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text("Don’t have an Account? "),
                   TextButton(
                     onPressed: () {
-                      // Define create account action
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const ClientRegistrationScreen()),
-                      ); 
+                          builder: (context) => const ClientRegistrationScreen(),
+                        ),
+                      );
                     },
                     child: const Text(
                       'Create an Account',

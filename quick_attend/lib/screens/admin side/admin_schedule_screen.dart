@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quick_attend/screens/admin%20side/admin_class_add_screen.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'class_details_page.dart'; // Make sure to import the ClassDetailsPage
+// Make sure to import the ClassDetailsPage
 
 class SchedulePage extends StatefulWidget {
   @override
