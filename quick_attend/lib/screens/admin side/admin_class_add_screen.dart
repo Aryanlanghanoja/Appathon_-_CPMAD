@@ -12,7 +12,7 @@ class ClassDetailsPage extends StatelessWidget {
   // Constructor to accept the selected date
   final DateTime selectedDay;
   
-  ClassDetailsPage({required this.selectedDay});
+  ClassDetailsPage({super.key, required this.selectedDay});
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +20,9 @@ class ClassDetailsPage extends StatelessWidget {
     dateController.text = "${selectedDay.year}-${selectedDay.month}-${selectedDay.day}";
     
     return Scaffold(
-      backgroundColor: Color(0xFFF5F5F5),
+      backgroundColor: const Color(0xFFF5F5F5),
       bottomNavigationBar: BottomNavigationBar(
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
@@ -48,8 +48,8 @@ class ClassDetailsPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 20),
-            Row(
+            const SizedBox(height: 20),
+            const Row(
               children: [
                 CircleAvatar(
                   radius: 30,
@@ -79,7 +79,7 @@ class ClassDetailsPage extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             // Horizontal Date Row with Date and Day
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
@@ -90,23 +90,23 @@ class ClassDetailsPage extends StatelessWidget {
                     child: Container(
                       width: 60, // Width for each box
                       decoration: BoxDecoration(
-                        color: Color(0xFFD9D9D9), // Background color for each day
+                        color: const Color(0xFFD9D9D9), // Background color for each day
                         borderRadius: BorderRadius.circular(12), // Rounded corners
                       ),
-                      padding: EdgeInsets.symmetric(vertical: 8), // Padding for text
+                      padding: const EdgeInsets.symmetric(vertical: 8), // Padding for text
                       child: Column(
                         children: [
                           Text(
                             '${17 + index}', // Display dynamic date starting from 17
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 18,
                             ),
                           ),
-                          SizedBox(height: 4),
+                          const SizedBox(height: 4),
                           Text(
                             ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][index % 7], // Day name
-                            style: TextStyle(color: Colors.grey),
+                            style: const TextStyle(color: Colors.grey),
                           ),
                         ],
                       ),
@@ -115,8 +115,8 @@ class ClassDetailsPage extends StatelessWidget {
                 }),
               ),
             ),
-            SizedBox(height: 20),
-            Center(
+            const SizedBox(height: 20),
+            const Center(
               child: Text(
                 "Enter Class Details",
                 style: TextStyle(
@@ -125,7 +125,7 @@ class ClassDetailsPage extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             // Class Details Form
             Expanded(
               child: SingleChildScrollView(
@@ -142,7 +142,7 @@ class ClassDetailsPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     // Subject Field
                     TextField(
                       controller: subjectController,
@@ -153,7 +153,7 @@ class ClassDetailsPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     // Batch Name Field
                     TextField(
                       controller: batchNameController,
@@ -164,7 +164,7 @@ class ClassDetailsPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     // Date Field (This field is pre-filled with the selected date)
                     TextField(
                       controller: dateController,
@@ -173,7 +173,7 @@ class ClassDetailsPage extends StatelessWidget {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        suffixIcon: Icon(Icons.calendar_today),
+                        suffixIcon: const Icon(Icons.calendar_today),
                       ),
                       onTap: () async {
                         FocusScope.of(context).requestFocus(FocusNode());
@@ -189,7 +189,7 @@ class ClassDetailsPage extends StatelessWidget {
                         }
                       },
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     // Location Field
                     TextField(
                       controller: locationController,
@@ -200,7 +200,7 @@ class ClassDetailsPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     // Number of Students Field
                     TextField(
                       controller: numberOfStudentsController,
@@ -212,7 +212,7 @@ class ClassDetailsPage extends StatelessWidget {
                       ),
                       keyboardType: TextInputType.number,
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     // Time Field
                     TextField(
                       controller: timeController,
@@ -221,7 +221,7 @@ class ClassDetailsPage extends StatelessWidget {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        suffixIcon: Icon(Icons.access_time),
+                        suffixIcon: const Icon(Icons.access_time),
                       ),
                       onTap: () async {
                         FocusScope.of(context).requestFocus(FocusNode());
@@ -235,7 +235,7 @@ class ClassDetailsPage extends StatelessWidget {
                         }
                       },
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     // Submit Button
                     Center(
                       child: ElevatedButton(
@@ -255,8 +255,8 @@ class ClassDetailsPage extends StatelessWidget {
                           print('Number of Students: ${numberOfStudentsController.text}');
                           print('Time: ${timeController.text}');
                         },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
+                        child: const Padding(
+                          padding: EdgeInsets.symmetric(
                               horizontal: 32.0, vertical: 12.0),
                           child: Text(
                             'Submit',
