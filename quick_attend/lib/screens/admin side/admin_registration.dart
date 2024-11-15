@@ -26,12 +26,14 @@ class _AdminRegistrationScreenState extends State<AdminRegistrationScreen> {
         'password': _passwordController.text, // Hash in production
       });
 
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Registration successful!')),
       );
 
       // Navigate to Login Screen (implement the logic for login screen navigation here)
     } catch (e) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error: $e')),
       );
