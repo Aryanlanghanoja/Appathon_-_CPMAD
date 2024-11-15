@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quick_attend/screens/client%20side/client_login.dart';
 
 class ClientRegistrationScreen extends StatefulWidget {
   const ClientRegistrationScreen({Key? key}) : super(key: key);
@@ -122,37 +123,38 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                   // Register Button
                   ElevatedButton(
                     onPressed: () {
-                      // Handle registration logic here
+                      // Define login button action
                     },
                     style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 40,
-                        vertical: 16,
-                      ),
+                      backgroundColor: Colors.teal,
+                      foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
+                        borderRadius: BorderRadius.circular(20),
                       ),
+                      minimumSize: const Size(double.infinity, 50),
                     ),
-                    child: const Text(
-                      "Register",
-                      style: TextStyle(fontSize: 16),
-                    ),
+                    child: const Text('Register'),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 20),
 
                   // Login Option
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text("Already have an Account? "),
-                      GestureDetector(
-                        onTap: () {
-                          // Navigate to login screen
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const ClientLoginScreen()),
+                          ); 
                         },
                         child: const Text(
                           "Login",
                           style: TextStyle(
-                            color: Colors.blue,
+                            color: Colors.black,
                             fontWeight: FontWeight.bold,
                           ),
                         ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quick_attend/screens/admin%20side/admin_login.dart';
 
 class AdminRegistrationScreen extends StatefulWidget {
   const AdminRegistrationScreen({Key? key}) : super(key: key);
@@ -125,34 +126,36 @@ class _AdminRegistrationScreenState extends State<AdminRegistrationScreen> {
                       // Handle registration logic here
                     },
                     style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 40,
-                        vertical: 16,
-                      ),
+                      backgroundColor: Colors.teal,
+                      foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
+                        borderRadius: BorderRadius.circular(20),
                       ),
+                      minimumSize: const Size(double.infinity, 50),
                     ),
-                    child: const Text(
-                      "Register",
-                      style: TextStyle(fontSize: 16),
-                    ),
+                    child: const Text('Register'),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 20),
 
                   // Login Option
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text("Already have an Account? "),
-                      GestureDetector(
-                        onTap: () {
+                      TextButton(
+                        onPressed: () {
                           // Navigate to login screen
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const AdminLoginScreen()),
+                          ); 
                         },
                         child: const Text(
                           "Login",
                           style: TextStyle(
-                            color: Colors.blue,
+                            color: Colors.black,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
