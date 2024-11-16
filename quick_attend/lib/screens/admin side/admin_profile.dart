@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:quick_attend/screens/admin%20side/admin_change_password.dart';
+import 'package:quick_attend/screens/admin%20side/admin_myprofile.dart';
 
 class AdminProfileScreen extends StatelessWidget {
   const AdminProfileScreen({Key? key}) : super(key: key);
@@ -41,14 +43,22 @@ class AdminProfileScreen extends StatelessWidget {
                     leading: const Icon(Icons.person),
                     title: const Text("My Profile"),
                     onTap: () {
-                      // Navigate to My Profile Screen
+                      // Navigate to ProfilePage when "My Profile" is tapped
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) =>  ProfilePage()),
+                      );
                     },
                   ),
                   ListTile(
                     leading: const Icon(Icons.lock),
                     title: const Text("Change Password"),
                     onTap: () {
-                      // Navigate to Change Password Screen
+                      // Navigate to UpdateProfilePage when "Change Password" is tapped
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) =>  UpdateProfilePage()),
+                      );
                     },
                   ),
                   ListTile(
@@ -71,7 +81,6 @@ class AdminProfileScreen extends StatelessWidget {
           ],
         ),
       ),
-
     );
   }
 }
