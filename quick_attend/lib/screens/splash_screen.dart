@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:quick_attend/screens/admin%20side/admin_home_screen.dart';
+import 'package:quick_attend/screens/role_distibution.dart';
 import 'dart:async';
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -13,9 +17,21 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 3), () {
-      Navigator.pushReplacementNamed(
-          context, '/home'); // Navigate to home screen
+    Timer(const Duration(seconds: 3), () async {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      String User_name = await prefs.getString('User_Name') ?? '';
+
+      if (User_name == '') {
+        Navigator.of(context).pushReplacementNamed(
+          MaterialPageRoute(builder: (context) => RoleSelectionScreen()) as String
+        ); // Navigate to login screen
+      }
+
+      else {
+        Navigator.of(context).pushReplacementNamed(
+            MaterialPageRoute(builder: (context) => AdminHomeScreen())
+                as String);
+      } // Navigate to home screen
     });
   }
 

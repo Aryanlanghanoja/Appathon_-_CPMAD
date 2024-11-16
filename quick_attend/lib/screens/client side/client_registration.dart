@@ -190,7 +190,7 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
                       const Text("Already have an Account? "),
                       TextButton(
                         onPressed: () {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                               builder: (context) =>

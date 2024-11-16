@@ -52,7 +52,7 @@ class RoleSelectionScreen extends StatelessWidget {
             // Faculty button
             ElevatedButton(
               onPressed: () {
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                       builder: (context) => const AdminLoginScreen()),
@@ -72,7 +72,7 @@ class RoleSelectionScreen extends StatelessWidget {
             // Student button
             ElevatedButton(
               onPressed: () {
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                       builder: (context) => const ClientLoginScreen()),

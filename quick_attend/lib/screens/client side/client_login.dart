@@ -40,7 +40,7 @@ Future<void> _loginAdmin() async {
         );
 
         // Navigate to AdminHomeScreen
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => HomeScreen()),
         );
@@ -151,7 +151,7 @@ Future<void> _loginAdmin() async {
                   const Text("Don’t have an Account? "),
                   TextButton(
                     onPressed: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                           builder: (context) => const ClientRegistrationScreen(),

@@ -1,11 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:quick_attend/screens/admin%20side/admin_change_password.dart';
 import 'package:quick_attend/screens/admin%20side/admin_login.dart';
 import 'package:quick_attend/screens/admin%20side/admin_myprofile.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-class AdminProfileScreen extends StatelessWidget {
+class AdminProfileScreen extends StatefulWidget {
   const AdminProfileScreen({Key? key}) : super(key: key);
+
+  @override
+  _AdminProfileScreenState createState() => _AdminProfileScreenState();
+}
+
+class _AdminProfileScreenState extends State<AdminProfileScreen> {
+  String userName = 'Hello World';
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUser();
+  }
+
+  Future<void> fetchUser() async {
+
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      setState(() {
+        userName = prefs.getString('User_Name') ?? '';
+      });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,12 +49,12 @@ class AdminProfileScreen extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             const Text(
-              "Hello World! I am",
+              "Hello!",
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
-            const Text(
-              "Admin",
-              style: TextStyle(fontSize: 14, color: Colors.grey),
+            Text(
+              userName,
+              style: const TextStyle(fontSize: 14, color: Colors.grey),
             ),
             const SizedBox(height: 24),
 
@@ -45,32 +66,36 @@ class AdminProfileScreen extends StatelessWidget {
                     leading: const Icon(Icons.person),
                     title: const Text("My Profile"),
                     onTap: () {
-                      // Navigate to ProfilePage when "My Profile" is tapped
-                      Navigator.push(
+                      // Navigate to My Profile Screen
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(builder: (context) => ProfilePage()),
                       );
                     },
                   ),
+                  const Divider(),
                   ListTile(
                     leading: const Icon(Icons.lock),
                     title: const Text("Change Password"),
                     onTap: () {
-                      // Navigate to UpdateProfilePage when "Change Password" is tapped
-                      Navigator.push(
+                      // Navigate to Change Password Screen
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                             builder: (context) => UpdateProfilePage()),
                       );
                     },
                   ),
+                  const Divider(),
                   ListTile(
                     leading: const Icon(Icons.add),
                     title: const Text("Add Course"),
                     onTap: () {
-                      // Navigate to Add Course Screen
+                      // Add your logic here
+                      print("Add Course tapped");
                     },
                   ),
+                  const Divider(),
                   ListTile(
                     leading: const Icon(Icons.logout),
                     title: const Text("Logout"),
@@ -80,11 +105,11 @@ class AdminProfileScreen extends StatelessWidget {
                           await SharedPreferences.getInstance();
                       await prefs.setString('User_Name', '');
                       await prefs.setString('Password', '');
-                      Navigator.push(
-                        // ignore: use_build_context_synchronously
+                      Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
                             builder: (context) => AdminLoginScreen()),
+                        (Route<dynamic> route) => false,
                       );
                     },
                   ),

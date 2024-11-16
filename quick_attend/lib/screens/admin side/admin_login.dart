@@ -46,7 +46,7 @@ Future<void> _loginAdmin() async {
           await prefs.setString('Password', _passwordController.text);
 
         // Navigate to AdminHomeScreen
-        Navigator.push(
+        Navigator.pushReplacement(
           // ignore: use_build_context_synchronously
           context,
           MaterialPageRoute(builder: (context) => const AdminHomeScreen()),
@@ -156,7 +156,7 @@ Future<void> _loginAdmin() async {
                   const Text("Don’t have an Account? "),
                   TextButton(
                     onPressed: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                           builder: (context) => const AdminRegistrationScreen(),
