@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quick_attend/screens/admin%20side/admin_profile.dart';
 import 'package:quick_attend/screens/admin%20side/admin_schedule_screen.dart';
 
 class AdminHomeScreen extends StatefulWidget {
@@ -17,7 +18,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
     const HomeTab(),
     ReportTab(),
     SchedulePage(),
-    ProfileTab(),
+    AdminProfileScreen(),
   ];
 
   void _onItemTapped(int index) {
