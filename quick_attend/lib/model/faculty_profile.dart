@@ -1,5 +1,6 @@
 class Faculty {
   // Properties
+  // ignore: non_constant_identifier_names
   final int faculty_No; // Faculty_No (required and non-null)
   final List<String> courses; // Array of courses
   final String email; // Email
@@ -9,6 +10,7 @@ class Faculty {
 
   // Constructor with required parameters
   Faculty({
+    // ignore: non_constant_identifier_names
     required this.faculty_No, // Required and non-null
     required this.courses,
     required this.email,

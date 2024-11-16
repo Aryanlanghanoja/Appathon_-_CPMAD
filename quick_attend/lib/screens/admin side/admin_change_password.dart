@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -13,6 +15,8 @@ class MyApp extends StatelessWidget {
 }
 
 class UpdateProfilePage extends StatelessWidget {
+  const UpdateProfilePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,7 +96,7 @@ class UpdateProfilePage extends StatelessWidget {
 class PasswordField extends StatelessWidget {
   final String label;
 
-  const PasswordField({required this.label});
+  const PasswordField({super.key, required this.label});
 
   @override
   Widget build(BuildContext context) {

@@ -3,9 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:quick_attend/screens/admin%20side/admin_login.dart';
 
 class AdminRegistrationScreen extends StatefulWidget {
-  const AdminRegistrationScreen({Key? key}) : super(key: key);
+  const AdminRegistrationScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _AdminRegistrationScreenState createState() =>
       _AdminRegistrationScreenState();
 }

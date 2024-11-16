@@ -12,6 +12,7 @@ class FirebaseServices {
 
     // Add a new document with a generated ID
     db.collection("class").add(classSessionData).then((DocumentReference doc) =>
+        // ignore: avoid_print
         print('Class session added with ID: ${doc.id}'));
   }
 
@@ -30,7 +31,9 @@ class FirebaseServices {
             .toString()) // Assuming classId is used as document ID
         .update(classSession
             .toJson()) // Convert ClassSession object to JSON for updating
+        // ignore: avoid_print
         .then((value) => print("Class session updated"))
+        // ignore: avoid_print
         .catchError((error) => print("Failed to update class session: $error"));
   }
 
@@ -40,7 +43,9 @@ class FirebaseServices {
         .collection("class")
         .doc(classId.toString()) // Assuming classId is used as document ID
         .delete()
+        // ignore: avoid_print
         .then((value) => print("Class session deleted"))
+        // ignore: avoid_print
         .catchError((error) => print("Failed to delete class session: $error"));
   }
 }

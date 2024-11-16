@@ -3,9 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:quick_attend/screens/client%20side/client_login.dart';
 
 class ClientRegistrationScreen extends StatefulWidget {
-  const ClientRegistrationScreen({Key? key}) : super(key: key);
+  const ClientRegistrationScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _ClientRegistrationScreenState createState() =>
       _ClientRegistrationScreenState();
 }
@@ -38,18 +39,21 @@ class _ClientRegistrationScreenState extends State<ClientRegistrationScreen> {
         'password': _passwordController.text.trim(), // Hash in production
       });
 
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Registration successful!')),
       );
 
       // Navigate to Login Screen after successful registration
       Navigator.pushReplacement(
+        // ignore: use_build_context_synchronously
         context,
         MaterialPageRoute(
           builder: (context) => const ClientLoginScreen(),
         ),
       );
     } catch (e) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error: ${e.toString()}')),
       );

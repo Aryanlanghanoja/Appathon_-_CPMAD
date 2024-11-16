@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:quick_attend/screens/admin%20side/admin_change_password.dart';
@@ -5,9 +6,10 @@ import 'package:quick_attend/screens/admin%20side/admin_login.dart';
 import 'package:quick_attend/screens/admin%20side/admin_myprofile.dart';
 
 class AdminProfileScreen extends StatefulWidget {
-  const AdminProfileScreen({Key? key}) : super(key: key);
+  const AdminProfileScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _AdminProfileScreenState createState() => _AdminProfileScreenState();
 }
 
@@ -92,7 +94,9 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
                     title: const Text("Add Course"),
                     onTap: () {
                       // Add your logic here
-                      print("Add Course tapped");
+                      if (kDebugMode) {
+                        print("Add Course tapped");
+                      }
                     },
                   ),
                   const Divider(),
@@ -106,6 +110,7 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
                       await prefs.setString('User_Name', '');
                       await prefs.setString('Password', '');
                       Navigator.pushAndRemoveUntil(
+                        // ignore: use_build_context_synchronously
                         context,
                         MaterialPageRoute(
                             builder: (context) => AdminLoginScreen()),

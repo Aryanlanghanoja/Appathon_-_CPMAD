@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -13,6 +15,8 @@ class MyApp extends StatelessWidget {
 }
 
 class ProfilePage extends StatelessWidget {
+  const ProfilePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,7 +82,7 @@ class ProfileInfoRow extends StatelessWidget {
   final String label;
   final String value;
 
-  const ProfileInfoRow({required this.label, required this.value});
+  const ProfileInfoRow({super.key, required this.label, required this.value});
 
   @override
   Widget build(BuildContext context) {

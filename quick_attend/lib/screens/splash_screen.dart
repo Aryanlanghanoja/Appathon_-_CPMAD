@@ -19,15 +19,17 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Timer(const Duration(seconds: 3), () async {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
-      String User_name = await prefs.getString('User_Name') ?? '';
+      String userName = prefs.getString('User_Name') ?? '';
 
-      if (User_name == '') {
+      if (userName == '') {
+        // ignore: use_build_context_synchronously
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => RoleSelectionScreen())
         ); // Navigate to login screen
       }
 
       else {
+        // ignore: use_build_context_synchronously
         Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => AdminHomeScreen())
         );

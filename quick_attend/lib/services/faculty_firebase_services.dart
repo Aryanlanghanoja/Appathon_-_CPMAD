@@ -13,6 +13,7 @@ class FirebaseServices {
     // Add a new document with a generated ID
     db.collection("faculty_profile").add(facultyData).then(
         (DocumentReference doc) =>
+            // ignore: avoid_print
             print('Faculty profile added with ID: ${doc.id}'));
   }
 
@@ -30,20 +31,24 @@ class FirebaseServices {
         .doc(faculty.faculty_No
             .toString()) // Assuming faculty_No is used as document ID
         .update(faculty.toJson()) // Convert Faculty object to JSON for updating
+        // ignore: avoid_print
         .then((value) => print("Faculty profile updated"))
         .catchError(
+            // ignore: avoid_print
             (error) => print("Failed to update faculty profile: $error"));
   }
 
   // Delete a faculty profile by faculty_No
-  deleteFaculty(int faculty_No) {
+  deleteFaculty(int facultyNo) {
     return db
         .collection("faculty_profile")
         .doc(
-            faculty_No.toString()) // Assuming faculty_No is used as document ID
+            facultyNo.toString()) // Assuming faculty_No is used as document ID
         .delete()
+        // ignore: avoid_print
         .then((value) => print("Faculty profile deleted"))
         .catchError(
+            // ignore: avoid_print
             (error) => print("Failed to delete faculty profile: $error"));
   }
 }

@@ -11,6 +11,7 @@ class AdminHomeScreen extends StatefulWidget {
   const AdminHomeScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _AdminHomeScreenState createState() => _AdminHomeScreenState();
 }
 
@@ -71,6 +72,7 @@ class HomeTab extends StatefulWidget {
   const HomeTab({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _HomeTabState createState() => _HomeTabState();
 }
 

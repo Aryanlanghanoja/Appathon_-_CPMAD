@@ -12,6 +12,7 @@ class FirebaseServices {
 
     // Add a new document with a generated ID
     db.collection("courses").add(courseData).then(
+        // ignore: avoid_print
         (DocumentReference doc) => print('Course added with ID: ${doc.id}'));
   }
 
@@ -29,7 +30,9 @@ class FirebaseServices {
         .doc(course.courseId
             .toString()) // Assuming courseId is used as document ID
         .update(course.toJson()) // Convert Course object to JSON for updating
+        // ignore: avoid_print
         .then((value) => print("Course updated"))
+        // ignore: avoid_print
         .catchError((error) => print("Failed to update course: $error"));
   }
 
@@ -39,7 +42,9 @@ class FirebaseServices {
         .collection("courses")
         .doc(courseId.toString()) // Assuming courseId is used as document ID
         .delete()
+        // ignore: avoid_print
         .then((value) => print("Course deleted"))
+        // ignore: avoid_print
         .catchError((error) => print("Failed to delete course: $error"));
   }
 }
