@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:quick_attend/screens/admin%20side/admin_class_add_screen.dart';
 import 'package:quick_attend/screens/admin%20side/admin_profile.dart';
+import 'package:quick_attend/screens/admin%20side/admin_report_screen.dart';
 import 'package:quick_attend/screens/admin%20side/admin_schedule_screen.dart';
 
 class AdminHomeScreen extends StatefulWidget {
@@ -17,7 +18,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
 
   final List<Widget> _screens = [
     const HomeTab(),
-    const SchedulePage(),
+    const AdminReportScreen(),
     const SchedulePage(),
     const AdminProfileScreen(),
   ];
