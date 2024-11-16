@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 import 'package:quick_attend/screens/admin%20side/attendance_timer.dart';
-import 'admin_class_add_screen.dart';
 import 'admin_profile.dart';
 import 'admin_report_screen.dart';
 import 'admin_schedule_screen.dart';
@@ -33,11 +33,13 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF9F9FF), 
       body: IndexedStack(
         index: _selectedIndex,
         children: _screens,
       ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: const Color(0xFFF9F9FF), 
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -128,7 +130,8 @@ class _HomeTabState extends State<HomeTab> {
             scrollDirection: Axis.horizontal,
             child: Row(
               children: List.generate(7, (index) {
-                DateTime currentDate = DateTime.now().add(Duration(days: index));
+                DateTime currentDate =
+                    DateTime.now().add(Duration(days: index));
                 return GestureDetector(
                   onTap: () {
                     setState(() {
@@ -142,7 +145,7 @@ class _HomeTabState extends State<HomeTab> {
                       color: selectedDate.day == currentDate.day &&
                               selectedDate.month == currentDate.month
                           ? Colors.teal
-                          : const Color(0xFFD9D9D9),
+                          : const Color(0xFFEFEFEF),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     padding: const EdgeInsets.symmetric(vertical: 8),
@@ -161,8 +164,15 @@ class _HomeTabState extends State<HomeTab> {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-                              [currentDate.weekday % 7],
+                          [
+                            'Sun',
+                            'Mon',
+                            'Tue',
+                            'Wed',
+                            'Thu',
+                            'Fri',
+                            'Sat'
+                          ][currentDate.weekday % 7],
                           style: TextStyle(
                             color: selectedDate.day == currentDate.day &&
                                     selectedDate.month == currentDate.month
@@ -209,7 +219,7 @@ class _HomeTabState extends State<HomeTab> {
                     return Container(
                       margin: const EdgeInsets.only(bottom: 10),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFD9D9D9),
+                        color: const Color(0xFFF9F9F9),
                         borderRadius: BorderRadius.circular(30),
                         border: Border.all(color: Colors.black26),
                       ),
@@ -239,11 +249,12 @@ class _HomeTabState extends State<HomeTab> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => AttendanceTimerScreen(
+                                      builder: (context) =>
+                                          AttendanceTimerScreen(
                                         className: classData['sub_name'] ??
                                             'Unknown Subject',
-                                        facultyName: classData['faculty_name'] ??
-                                            'N/A',
+                                        facultyName:
+                                            classData['faculty_name'] ?? 'N/A',
                                         onTimerComplete: () =>
                                             markAttendanceTaken(classId),
                                       ),
