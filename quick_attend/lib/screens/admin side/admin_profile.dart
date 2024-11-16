@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:quick_attend/screens/admin%20side/admin_add_course.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:quick_attend/screens/admin%20side/admin_change_password.dart';
 import 'package:quick_attend/screens/admin%20side/admin_login.dart';
@@ -94,9 +95,11 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
                     title: const Text("Add Course"),
                     onTap: () {
                       // Add your logic here
-                      if (kDebugMode) {
-                        print("Add Course tapped");
-                      }
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AddCoursePage()),
+                      );
                     },
                   ),
                   const Divider(),

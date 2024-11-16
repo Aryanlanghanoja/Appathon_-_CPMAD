@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quick_attend/screens/admin%20side/admin_profile.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,15 +15,41 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class AddCoursePage extends StatelessWidget {
+class AddCoursePage extends StatefulWidget {
   const AddCoursePage({super.key});
+
+  @override
+  _AddCoursePageState createState() => _AddCoursePageState();
+}
+
+class _AddCoursePageState extends State<AddCoursePage> {
+  final List<String> courseNames = [
+    'Mathematics',
+    'Physics',
+    'Chemistry',
+    'Biology',
+    'Computer Science',
+  ];
+  String? selectedCourse; // Holds the currently selected course
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Add Course'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+              Navigator.pushReplacement(
+        // ignore: use_build_context_synchronously
+        context,
+        MaterialPageRoute(
+          builder: (context) => const AdminProfileScreen(),
+        ),
+      ); // Navigate back
+          },
+        ),
+        title: Text('Add Course', style: TextStyle(color: Colors.white)),
         centerTitle: true,
         backgroundColor: Colors.teal,
       ),
@@ -49,7 +76,31 @@ class AddCoursePage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               children: [
-                CourseField(label: 'Course Name'),
+                DropdownButtonFormField<String>(
+                  value: selectedCourse,
+                  items: courseNames.map((course) {
+                    return DropdownMenuItem<String>(
+                      value: course,
+                      child: Text(course),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      selectedCourse = value; // Update selected course
+                    });
+                  },
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Color(0xFFD9D9D9),
+                    hintText: 'Select Course Name',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide.none,
+                    ),
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                  ),
+                ),
                 SizedBox(height: 15),
                 CourseField(label: 'Course ID'),
               ],
@@ -59,6 +110,14 @@ class AddCoursePage extends StatelessWidget {
           ElevatedButton(
             onPressed: () {
               // Add button logic
+              if (selectedCourse != null) {
+                print('Course Name: $selectedCourse');
+                // Additional logic for course ID and actions
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Please select a course name')),
+                );
+              }
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.teal,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quick_attend/screens/admin%20side/admin_profile.dart';
 
 void main() => runApp(MyApp());
 
@@ -22,7 +23,19 @@ class ProfilePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Profile'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+          Navigator.pushReplacement(
+        // ignore: use_build_context_synchronously
+        context,
+        MaterialPageRoute(
+          builder: (context) => const AdminProfileScreen(),
+        ),
+      ); // Navigate back // Navigate back to the previous screen
+          },
+        ),
+        title: Text('Profile', style: TextStyle(color: Colors.white)),
         centerTitle: true,
         backgroundColor: Colors.teal,
       ),
@@ -56,7 +69,8 @@ class ProfilePage extends StatelessWidget {
                 ProfileInfoRow(label: 'Name', value: 'Athira Ramesh M'),
                 ProfileInfoRow(label: 'Faculty No', value: '1234'),
                 ProfileInfoRow(label: 'Mobile', value: '9400500284'),
-                ProfileInfoRow(label: 'Email Id', value: 'athirarameshm@gmail.com'),
+                ProfileInfoRow(
+                    label: 'Email Id', value: 'athirarameshm@gmail.com'),
                 ProfileInfoRow(label: 'Gender', value: 'Male'),
               ],
             ),
@@ -66,8 +80,10 @@ class ProfilePage extends StatelessWidget {
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.assessment), label: 'Report'),
-          BottomNavigationBarItem(icon: Icon(Icons.schedule), label: 'Schedule'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.assessment), label: 'Report'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.schedule), label: 'Schedule'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
         selectedItemColor: Colors.teal,
