@@ -22,6 +22,7 @@ class _ClassDetailsPageState extends State<ClassDetailsPage> {
   final TextEditingController timeController = TextEditingController();
   final TextEditingController locationController = TextEditingController();
   final TextEditingController numberOfStudentsController = TextEditingController();
+  final TextEditingController uniquenumberController = TextEditingController();
 
   // Faculty details
   String facultyName = "";
@@ -84,6 +85,20 @@ class _ClassDetailsPageState extends State<ClassDetailsPage> {
   Future<void> _submitData() async {
     if (_validateInputs()) {
       try {
+        // Fetch the current highest `un_no`
+        QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+            .collection('class')
+            .orderBy('un_no', descending: true)
+            .limit(1)
+            .get();
+
+        int newUnNo = 1; // Default starting value if no documents exist
+        if (querySnapshot.docs.isNotEmpty) {
+          var lastDoc = querySnapshot.docs.first;
+          newUnNo = (lastDoc['un_no'] as int) + 1; // Increment the highest un_no
+        }
+
+        // Add the new class details with the incremented `un_no`
         await FirebaseFirestore.instance.collection('class').add({
           'class_name': classNameController.text,
           'sub_name': subjectController.text,
@@ -94,7 +109,9 @@ class _ClassDetailsPageState extends State<ClassDetailsPage> {
           'no_of_student': numberOfStudentsController.text,
           'faculty_name': facultyName,
           'faculty_no': facultyNumber,
+          'un_no': newUnNo, // Use the incremented un_no
         });
+
         _showSnackbar('Class details submitted successfully!');
         Navigator.pop(context);
       } catch (e) {
