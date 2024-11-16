@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
-import 'package:quick_attend/screens/admin%20side/admin_class_add_screen.dart';
-import 'package:quick_attend/screens/admin%20side/admin_profile.dart';
-import 'package:quick_attend/screens/admin%20side/admin_report_screen.dart';
-import 'package:quick_attend/screens/admin%20side/admin_schedule_screen.dart';
+import 'package:quick_attend/screens/admin%20side/attendance_timer.dart';
+import 'admin_class_add_screen.dart';
+import 'admin_profile.dart';
+import 'admin_report_screen.dart';
+import 'admin_schedule_screen.dart';
 
 class AdminHomeScreen extends StatefulWidget {
   const AdminHomeScreen({super.key});
@@ -73,11 +74,19 @@ class HomeTab extends StatefulWidget {
 
 class _HomeTabState extends State<HomeTab> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  DateTime selectedDate = DateTime.now(); // Default to today's date
+  DateTime selectedDate = DateTime.now();
 
-  // Format date to "YYYY-MM-DD"
+  // Maintain attendance states
+  final Map<String, bool> _attendanceStates = {};
+
   String formatDate(DateTime date) {
     return DateFormat('yyyy-MM-dd').format(date);
+  }
+
+  void markAttendanceTaken(String classId) {
+    setState(() {
+      _attendanceStates[classId] = true;
+    });
   }
 
   @override
@@ -100,14 +109,14 @@ class _HomeTabState extends State<HomeTab> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Hello World! I am',
+                    'Hello Admin!',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text(
-                    'Admin',
+                    'Welcome Back',
                     style: TextStyle(fontSize: 20),
                   ),
                 ],
@@ -115,7 +124,6 @@ class _HomeTabState extends State<HomeTab> {
             ],
           ),
           const SizedBox(height: 20),
-          // Horizontal Date Picker
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
@@ -178,7 +186,6 @@ class _HomeTabState extends State<HomeTab> {
             ),
           ),
           const SizedBox(height: 10),
-          // Fetching and displaying classes from Firebase
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
               stream: _firestore
@@ -196,6 +203,9 @@ class _HomeTabState extends State<HomeTab> {
                   itemCount: snapshot.data!.docs.length,
                   itemBuilder: (context, index) {
                     var classData = snapshot.data!.docs[index];
+                    String classId = classData.id; // Use unique class ID
+                    bool isAttendanceTaken =
+                        _attendanceStates[classId] ?? false;
                     return Container(
                       margin: const EdgeInsets.only(bottom: 10),
                       decoration: BoxDecoration(
@@ -214,75 +224,38 @@ class _HomeTabState extends State<HomeTab> {
                         title: Text(classData['sub_name'] ?? 'Unknown Subject'),
                         subtitle: Text(
                             'Faculty: ${classData['faculty_name'] ?? 'N/A'}'),
-                        trailing: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              classData['time'] ?? '',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
-                            ),
-                            const SizedBox(width: 10),
-                            IconButton(
-                              icon: const Icon(Icons.add_circle, color: Colors.teal),
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                    title: Text(
-                                        "Add Attendance for ${classData['sub_name']}"),
-                                    content: Text(
-                                      "Faculty: ${classData['faculty_name']}\nTime: ${classData['time']}",
+                        trailing: isAttendanceTaken
+                            ? const Text(
+                                'Show Report',
+                                style: TextStyle(
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              )
+                            : IconButton(
+                                icon: const Icon(Icons.add_circle,
+                                    color: Colors.teal),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => AttendanceTimerScreen(
+                                        className: classData['sub_name'] ??
+                                            'Unknown Subject',
+                                        facultyName: classData['faculty_name'] ??
+                                            'N/A',
+                                        onTimerComplete: () =>
+                                            markAttendanceTaken(classId),
+                                      ),
                                     ),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () => Navigator.pop(context),
-                                        child: const Text("Close"),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                          // Add your attendance logic here
-                                        },
-                                        child: const Text("Add Attendance"),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                            ),
-                          ],
-                        ),
+                                  );
+                                },
+                              ),
                       ),
                     );
                   },
                 );
               },
-            ),
-          ),
-          const SizedBox(height: 10),
-          // Add Class Button
-          Center(
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.teal,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ClassDetailsPage(
-                      selectedDay: selectedDate, // Pass the selectedDate here
-                    ),
-                  ),
-                );
-              },
-              child: const Text("Add Class"),
             ),
           ),
         ],
