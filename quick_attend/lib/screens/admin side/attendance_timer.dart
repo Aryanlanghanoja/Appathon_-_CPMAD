@@ -19,7 +19,7 @@ class AttendanceTimerScreen extends StatefulWidget {
 
 class _AttendanceTimerScreenState extends State<AttendanceTimerScreen> {
   late Timer _timer;
-  int _remainingSeconds = 5;
+  int _remainingSeconds = 60;
 
   @override
   void initState() {

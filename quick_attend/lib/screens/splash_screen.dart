@@ -22,15 +22,15 @@ class _SplashScreenState extends State<SplashScreen> {
       String User_name = await prefs.getString('User_Name') ?? '';
 
       if (User_name == '') {
-        Navigator.of(context).pushReplacementNamed(
-          MaterialPageRoute(builder: (context) => RoleSelectionScreen()) as String
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => RoleSelectionScreen())
         ); // Navigate to login screen
       }
 
       else {
-        Navigator.of(context).pushReplacementNamed(
+        Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => AdminHomeScreen())
-                as String);
+        );
       } // Navigate to home screen
     });
   }

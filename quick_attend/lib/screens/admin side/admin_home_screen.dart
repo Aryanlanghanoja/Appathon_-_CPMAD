@@ -236,7 +236,7 @@ class _HomeTabState extends State<HomeTab> {
                                 icon: const Icon(Icons.add_circle,
                                     color: Colors.teal),
                                 onPressed: () {
-                                  Navigator.pushReplacement(
+                                  Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => AttendanceTimerScreen(
