@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 import 'admin_home_screen.dart';
 import 'admin_registration.dart';
+
 
 class AdminLoginScreen extends StatefulWidget {
   const AdminLoginScreen({super.key});
@@ -39,6 +41,10 @@ Future<void> _loginAdmin() async {
           const SnackBar(content: Text('Login successful!')),
         );
 
+          final SharedPreferences prefs = await SharedPreferences.getInstance();
+          await prefs.setString('User_Name',  _facultyNoController.text);
+          await prefs.setString('Password', _passwordController.text);
+
         // Navigate to AdminHomeScreen
         Navigator.push(
           // ignore: use_build_context_synchronously
@@ -48,7 +54,7 @@ Future<void> _loginAdmin() async {
       } else {
         // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Incorrect password')),
+          const SnackBar(content: Text('Incorrect Password')),
         );
       }
     } else {

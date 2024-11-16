@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:quick_attend/screens/admin%20side/admin_change_password.dart';
+import 'package:quick_attend/screens/admin%20side/admin_login.dart';
 import 'package:quick_attend/screens/admin%20side/admin_myprofile.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AdminProfileScreen extends StatelessWidget {
   const AdminProfileScreen({Key? key}) : super(key: key);
@@ -46,7 +48,7 @@ class AdminProfileScreen extends StatelessWidget {
                       // Navigate to ProfilePage when "My Profile" is tapped
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) =>  ProfilePage()),
+                        MaterialPageRoute(builder: (context) => ProfilePage()),
                       );
                     },
                   ),
@@ -57,7 +59,8 @@ class AdminProfileScreen extends StatelessWidget {
                       // Navigate to UpdateProfilePage when "Change Password" is tapped
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) =>  UpdateProfilePage()),
+                        MaterialPageRoute(
+                            builder: (context) => UpdateProfilePage()),
                       );
                     },
                   ),
@@ -71,8 +74,18 @@ class AdminProfileScreen extends StatelessWidget {
                   ListTile(
                     leading: const Icon(Icons.logout),
                     title: const Text("Logout"),
-                    onTap: () {
+                    onTap: () async {
                       // Handle Logout
+                      final SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      await prefs.setString('User_Name', '');
+                      await prefs.setString('Password', '');
+                      Navigator.push(
+                        // ignore: use_build_context_synchronously
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AdminLoginScreen()),
+                      );
                     },
                   ),
                 ],
