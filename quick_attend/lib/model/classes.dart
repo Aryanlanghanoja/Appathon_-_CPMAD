@@ -19,7 +19,7 @@ class ClassSession {
     required this.subject,
     required this.batchName,
     required this.date,
-    required this.location,
+    required this.location, 
     required this.numberOfStudents,
     required this.startTime,
     required this.endTime,
