@@ -214,12 +214,46 @@ class _HomeTabState extends State<HomeTab> {
                         title: Text(classData['sub_name'] ?? 'Unknown Subject'),
                         subtitle: Text(
                             'Faculty: ${classData['faculty_name'] ?? 'N/A'}'),
-                        trailing: Text(
-                          classData['time'] ?? '',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              classData['time'] ?? '',
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            IconButton(
+                              icon: const Icon(Icons.add_circle, color: Colors.teal),
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    title: Text(
+                                        "Add Attendance for ${classData['sub_name']}"),
+                                    content: Text(
+                                      "Faculty: ${classData['faculty_name']}\nTime: ${classData['time']}",
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: const Text("Close"),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          // Add your attendance logic here
+                                        },
+                                        child: const Text("Add Attendance"),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
                         ),
                       ),
                     );
