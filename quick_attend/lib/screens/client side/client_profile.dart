@@ -1,35 +1,36 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:quick_attend/screens/admin%20side/admin_add_course.dart';
-import 'package:quick_attend/screens/client%20side/enroll_course.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:quick_attend/screens/client%20side/enroll_course.dart';
 import 'package:quick_attend/screens/admin%20side/admin_change_password.dart';
 import 'package:quick_attend/screens/admin%20side/admin_login.dart';
 import 'package:quick_attend/screens/admin%20side/admin_myprofile.dart';
 
 class ClientprofileScreen extends StatefulWidget {
-  const ClientprofileScreen({super.key});
+  final String enroll_no;
+
+  const ClientprofileScreen({Key? key, required this.enroll_no})
+      : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
-  _ClientprofileScreen createState() => _ClientprofileScreen();
+  _ClientprofileScreenState createState() => _ClientprofileScreenState();
 }
 
-class _ClientprofileScreen extends State<ClientprofileScreen> {
+class _ClientprofileScreenState extends State<ClientprofileScreen> {
   String userName = 'Hello World';
+  late String enrollNo; // Enrollment number passed as a parameter
 
   @override
   void initState() {
     super.initState();
+    enrollNo = widget.enroll_no; // Initialize enrollNo with the passed value
     fetchUser();
   }
 
   Future<void> fetchUser() async {
-
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      setState(() {
-        userName = prefs.getString('User_Name') ?? '';
-      });
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userName = prefs.getString('User_Name') ?? 'Guest';
+    });
   }
 
   @override
@@ -71,9 +72,11 @@ class _ClientprofileScreen extends State<ClientprofileScreen> {
                     title: const Text("My Profile"),
                     onTap: () {
                       // Navigate to My Profile Screen
-                      Navigator.pushReplacement(
+                      Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => ProfilePage()),
+                        MaterialPageRoute(
+                          builder: (context) => ProfilePage(),
+                        ),
                       );
                     },
                   ),
@@ -83,10 +86,11 @@ class _ClientprofileScreen extends State<ClientprofileScreen> {
                     title: const Text("Change Password"),
                     onTap: () {
                       // Navigate to Change Password Screen
-                      Navigator.pushReplacement(
+                      Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => UpdateProfilePage()),
+                          builder: (context) => UpdateProfilePage(),
+                        ),
                       );
                     },
                   ),
@@ -95,11 +99,14 @@ class _ClientprofileScreen extends State<ClientprofileScreen> {
                     leading: const Icon(Icons.add),
                     title: const Text("Enroll Course"),
                     onTap: () {
-                      // Add your logic here
-                      Navigator.pushReplacement(
+                      // Pass enrollment number to EnrollCoursePage
+                      Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => EnrollCoursePage()),
+                          builder: (context) => EnrollCoursePage(
+                            enrollNo: enrollNo,
+                          ),
+                        ),
                       );
                     },
                   ),
@@ -114,10 +121,10 @@ class _ClientprofileScreen extends State<ClientprofileScreen> {
                       await prefs.setString('User_Name', '');
                       await prefs.setString('Password', '');
                       Navigator.pushAndRemoveUntil(
-                        // ignore: use_build_context_synchronously
                         context,
                         MaterialPageRoute(
-                            builder: (context) => AdminLoginScreen()),
+                          builder: (context) => AdminLoginScreen(),
+                        ),
                         (Route<dynamic> route) => false,
                       );
                     },

@@ -1,34 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
-import 'package:quick_attend/screens/admin%20side/attendance_timer.dart';
-import 'package:quick_attend/screens/client%20side/client_profile.dart';
-import 'package:quick_attend/screens/client%20side/client_schedule_screen.dart';
+import 'client_profile.dart'; // Include the client profile
+
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final String enroll_no;
+
+  const HomeScreen({super.key, required this.enroll_no});
 
   @override
-  _HomeScreen createState() => _HomeScreen();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreen extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
-
-  final List<Widget> _screens = [
-    const HomeTab(),
-    const SchedulePage(),
-    const SchedulePage(),
-    const ClientprofileScreen(),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
+    // Screens for navigation
+    final List<Widget> _screens = [
+      const HomeTab(),
+      const Placeholder(), // Replace with the actual "Report" screen
+      const Placeholder(), // Replace with the actual "Schedule" screen
+      ClientprofileScreen(enroll_no: widget.enroll_no,), // Profile screen with parameter
+    ];
+
+    void _onItemTapped(int index) {
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
+
     return Scaffold(
       body: IndexedStack(
         index: _selectedIndex,
@@ -63,7 +65,7 @@ class _HomeScreen extends State<HomeScreen> {
 }
 
 class HomeTab extends StatefulWidget {
-  const HomeTab({super.key});
+  const HomeTab({Key? key}) : super(key: key);
 
   @override
   _HomeTabState createState() => _HomeTabState();
@@ -73,7 +75,6 @@ class _HomeTabState extends State<HomeTab> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   DateTime selectedDate = DateTime.now();
 
-  // Maintain attendance states
   final Map<String, bool> _attendanceStates = {};
 
   String formatDate(DateTime date) {
@@ -200,7 +201,7 @@ class _HomeTabState extends State<HomeTab> {
                   itemCount: snapshot.data!.docs.length,
                   itemBuilder: (context, index) {
                     var classData = snapshot.data!.docs[index];
-                    String classId = classData.id; // Use unique class ID
+                    String classId = classData.id;
                     bool isAttendanceTaken =
                         _attendanceStates[classId] ?? false;
                     return Container(
@@ -233,19 +234,7 @@ class _HomeTabState extends State<HomeTab> {
                                 icon: const Icon(Icons.add_circle,
                                     color: Colors.teal),
                                 onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => AttendanceTimerScreen(
-                                        className: classData['sub_name'] ??
-                                            'Unknown Subject',
-                                        facultyName: classData['faculty_name'] ??
-                                            'N/A',
-                                        onTimerComplete: () =>
-                                            markAttendanceTaken(classId),
-                                      ),
-                                    ),
-                                  );
+                                  markAttendanceTaken(classId);
                                 },
                               ),
                       ),
