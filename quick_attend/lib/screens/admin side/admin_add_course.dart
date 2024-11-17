@@ -25,11 +25,20 @@ class AddCoursePage extends StatefulWidget {
 
 class _AddCoursePageState extends State<AddCoursePage> {
   final List<String> courseNames = [
-    'Mathematics',
-    'Physics',
-    'Chemistry',
-    'Biology',
-    'Computer Science',
+    'ICE',
+    'FSSI',
+    'BEE',
+    'BES',
+    'IC',
+    'DIC' ,
+    'SPS' ,
+    'PE' ,
+    'VE',
+    'OOP',
+    'IRRS',
+    'DLD',
+    'MAVC' ,
+    'EDCAD'
   ];
   String? selectedCourse; // Holds the currently selected course
   final TextEditingController _courseIdController = TextEditingController();

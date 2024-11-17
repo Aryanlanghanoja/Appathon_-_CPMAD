@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:quick_attend/screens/admin%20side/admin_home_screen.dart';
 import 'package:quick_attend/screens/role_distibution.dart';
 import 'dart:async';
-
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -23,16 +23,15 @@ class _SplashScreenState extends State<SplashScreen> {
 
       if (userName == '') {
         // ignore: use_build_context_synchronously
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => RoleSelectionScreen())
-        ); // Navigate to login screen
-      }
-
-      else {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) =>
+                RoleSelectionScreen())); // Navigate to login screen
+      } else {
         // ignore: use_build_context_synchronously
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => AdminHomeScreen(facultyNo: '',))
-        );
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => AdminHomeScreen(
+                  facultyNo: '',
+                )));
       } // Navigate to home screen
     });
   }
@@ -41,8 +40,14 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white, // Set background color to white
-      body: Center(
-        child: Image.asset('assets/Images/Logo.jpg'), // Display splash image
+      body: Stack(
+        alignment: Alignment.center,
+        children: [
+
+
+          // Lottie animation
+          Lottie.asset("assets/animation/loader.json"),
+        ],
       ),
     );
   }
