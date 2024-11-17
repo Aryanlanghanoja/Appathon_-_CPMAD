@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:geolocator/geolocator.dart';
-// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
 class ClassDetailsPage extends StatefulWidget {
   final DateTime selectedDay;
+  final String facultyNumber;
 
-  const ClassDetailsPage({super.key, required this.selectedDay});
+  const ClassDetailsPage({
+    super.key,
+    required this.selectedDay,
+    required this.facultyNumber,
+  });
 
   @override
-  // ignore: library_private_types_in_public_api
   _ClassDetailsPageState createState() => _ClassDetailsPageState();
 }
 
@@ -25,9 +27,6 @@ class _ClassDetailsPageState extends State<ClassDetailsPage> {
   final TextEditingController numberOfStudentsController =
       TextEditingController();
 
-  String facultyName = "";
-  String facultyNumber = "";
-
   @override
   void initState() {
     super.initState();
@@ -35,17 +34,11 @@ class _ClassDetailsPageState extends State<ClassDetailsPage> {
   }
 
   Future<void> _initializePage() async {
+    // Set the selected date in the date controller
     dateController.text = DateFormat('yyyy-MM-dd').format(widget.selectedDay);
-    await _loadFacultyDetails();
-    await _fetchCurrentLocation();
-  }
 
-  Future<void> _loadFacultyDetails() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      facultyName = prefs.getString('facultyName') ?? "Unknown";
-      facultyNumber = prefs.getString('facultyNumber') ?? "0000";
-    });
+    // Fetch and display the current location
+    await _fetchCurrentLocation();
   }
 
   Future<void> _fetchCurrentLocation() async {
@@ -70,15 +63,11 @@ class _ClassDetailsPageState extends State<ClassDetailsPage> {
         return;
       }
 
-      // Using the updated LocationSettings API
-      LocationSettings locationSettings = LocationSettings(
-        accuracy: LocationAccuracy.high,
-        distanceFilter:
-            100, // You can set the minimum distance in meters for updates
-      );
-
       Position position = await Geolocator.getCurrentPosition(
-        locationSettings: locationSettings,
+        locationSettings: const LocationSettings(
+          accuracy: LocationAccuracy.high,
+          distanceFilter: 100,
+        ),
       );
       setState(() {
         locationController.text = "${position.latitude}, ${position.longitude}";
@@ -91,36 +80,35 @@ class _ClassDetailsPageState extends State<ClassDetailsPage> {
   Future<void> _submitData() async {
     if (_validateInputs()) {
       try {
-        // Fetch the current highest `un_no`
+        // Fetch the highest class_id and calculate a new one
         QuerySnapshot querySnapshot = await FirebaseFirestore.instance
             .collection('class')
-            .orderBy('un_no', descending: true)
+            .orderBy('class_id', descending: true)
             .limit(1)
             .get();
 
-        int newUnNo = 1; // Default starting value if no documents exist
+        int newClassId = 1;
         if (querySnapshot.docs.isNotEmpty) {
           var lastDoc = querySnapshot.docs.first;
-          newUnNo =
-              (lastDoc['un_no'] as int) + 1; // Increment the highest un_no
+          newClassId = (lastDoc['class_id'] as int) + 1;
         }
 
-        // Add the new class details with the incremented `un_no`
+        // Add the class details to Firestore
         await FirebaseFirestore.instance.collection('class').add({
           'class_name': classNameController.text,
-          'sub_name': subjectController.text,
+          'subject_name': subjectController.text,
           'batch_name': batchNameController.text,
           'date': dateController.text,
           'time': timeController.text,
           'location': locationController.text,
-          'no_of_student': numberOfStudentsController.text,
-          'faculty_name': facultyName,
-          'faculty_no': facultyNumber,
-          'un_no': newUnNo, // Use the incremented un_no
+          'no_of_student': int.parse(numberOfStudentsController.text),
+          'faculty_name': "N/A", // Optional: Replace with fetched faculty name
+          'faculty_no': widget.facultyNumber, // Use the passed faculty number
+          'class_id': newClassId,
+          'attendence_taken': false,
         });
 
         _showSnackbar('Class details submitted successfully!');
-        // ignore: use_build_context_synchronously
         Navigator.pop(context);
       } catch (e) {
         _showSnackbar('Failed to submit class details: $e');
@@ -195,6 +183,10 @@ class _ClassDetailsPageState extends State<ClassDetailsPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Text('Faculty Number: ${widget.facultyNumber}',
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 16),
               _buildTextField(classNameController, 'Class Name'),
               const SizedBox(height: 16),
               _buildTextField(subjectController, 'Subject'),

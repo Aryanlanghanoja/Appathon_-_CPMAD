@@ -31,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
       else {
         // ignore: use_build_context_synchronously
         Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => AdminHomeScreen())
+            MaterialPageRoute(builder: (context) => AdminHomeScreen(facultyNo: '',))
         );
       } // Navigate to home screen
     });

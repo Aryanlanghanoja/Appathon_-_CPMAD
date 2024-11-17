@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
 import 'admin_home_screen.dart';
-import 'admin_registration.dart';
-
 
 class AdminLoginScreen extends StatefulWidget {
   const AdminLoginScreen({super.key});
@@ -18,58 +14,46 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
   bool _obscurePassword = true;
 
- 
-Future<void> _loginAdmin() async {
-  final facultyNo = _facultyNoController.text;
-  final password = _passwordController.text;
+  Future<void> _loginAdmin() async {
+    final facultyNo = _facultyNoController.text;
+    final password = _passwordController.text;
 
-  try {
-    // Fetch the document from Firestore where the faculty_no matches
-    final snapshot = await FirebaseFirestore.instance
-        .collection('admin_login')
-        .where('faculty_no', isEqualTo: facultyNo)
-        .get();
+    try {
+      final snapshot = await FirebaseFirestore.instance
+          .collection('admin_login')
+          .where('faculty_no', isEqualTo: facultyNo)
+          .get();
 
-    if (snapshot.docs.isNotEmpty) {
-      // Get the first matching document
-      final userDoc = snapshot.docs.first;
+      if (snapshot.docs.isNotEmpty) {
+        final userDoc = snapshot.docs.first;
 
-      // Check if the password matches
-      if (userDoc['password'] == password) {
-        // ignore: use_build_context_synchronously
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Login successful!')),
-        );
+        if (userDoc['password'] == password) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Login successful!')),
+          );
 
-          final SharedPreferences prefs = await SharedPreferences.getInstance();
-          await prefs.setString('User_Name',  _facultyNoController.text);
-          await prefs.setString('Password', _passwordController.text);
-
-        // Navigate to AdminHomeScreen
-        Navigator.pushReplacement(
-          // ignore: use_build_context_synchronously
-          context,
-          MaterialPageRoute(builder: (context) => const AdminHomeScreen()),
-        );
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AdminHomeScreen(facultyNo: facultyNo),
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Incorrect Password')),
+          );
+        }
       } else {
-        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Incorrect Password')),
+          const SnackBar(content: Text('Faculty number not found')),
         );
       }
-    } else {
-      // ignore: use_build_context_synchronously
+    } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Faculty number not found')),
+        SnackBar(content: Text('Login failed: $e')),
       );
     }
-  } catch (e) {
-    // ignore: use_build_context_synchronously
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Login failed: $e')),
-    );
   }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -102,8 +86,8 @@ Future<void> _loginAdmin() async {
                   labelText: 'Enter your Faculty No.',
                   filled: true,
                   fillColor: Colors.grey[200],
-                  contentPadding:
-                      const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                  contentPadding: const EdgeInsets.symmetric(
+                      vertical: 20, horizontal: 20),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
                     borderSide: BorderSide.none,
@@ -118,8 +102,8 @@ Future<void> _loginAdmin() async {
                   labelText: 'Password',
                   filled: true,
                   fillColor: Colors.grey[200],
-                  contentPadding:
-                      const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                  contentPadding: const EdgeInsets.symmetric(
+                      vertical: 20, horizontal: 20),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
                     borderSide: BorderSide.none,
@@ -148,30 +132,6 @@ Future<void> _loginAdmin() async {
                   minimumSize: const Size(double.infinity, 50),
                 ),
                 child: const Text('Login'),
-              ),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text("Don’t have an Account? "),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const AdminRegistrationScreen(),
-                        ),
-                      );
-                    },
-                    child: const Text(
-                      'Create an Account',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                ],
               ),
             ],
           ),

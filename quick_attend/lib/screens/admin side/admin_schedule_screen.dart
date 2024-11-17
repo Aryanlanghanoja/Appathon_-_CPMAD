@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:quick_attend/screens/admin%20side/admin_class_add_screen.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'class_details_page.dart';
 
 class SchedulePage extends StatefulWidget {
-  const SchedulePage({super.key});
+  final String facultyNumber; // Accept facultyNumber from HomeScreen
+
+  const SchedulePage({super.key, required this.facultyNumber});
 
   @override
-  // ignore: library_private_types_in_public_api
   _SchedulePageState createState() => _SchedulePageState();
 }
 
@@ -18,6 +20,9 @@ class _SchedulePageState extends State<SchedulePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF5F5F5),
+      appBar: AppBar(
+        title: const Text('Schedule Page'),
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         child: Column(
@@ -55,7 +60,6 @@ class _SchedulePageState extends State<SchedulePage> {
               ],
             ),
             const SizedBox(height: 20),
-            // Horizontal Date Row with Date and Day
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
@@ -63,16 +67,16 @@ class _SchedulePageState extends State<SchedulePage> {
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Container(
-                      width: 60, // Width for each box
+                      width: 60,
                       decoration: BoxDecoration(
-                        color: const Color(0xFFD9D9D9), // Background color for each day
-                        borderRadius: BorderRadius.circular(12), // Rounded corners
+                        color: const Color(0xFFD9D9D9),
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                      padding: const EdgeInsets.symmetric(vertical: 8), // Padding for text
+                      padding: const EdgeInsets.symmetric(vertical: 8),
                       child: Column(
                         children: [
                           Text(
-                            '${17 + index}', // Display dynamic date starting from 17
+                            '${17 + index}',
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 18,
@@ -80,7 +84,8 @@ class _SchedulePageState extends State<SchedulePage> {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][index % 7], // Day name
+                            ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+                                [index % 7],
                             style: const TextStyle(color: Colors.grey),
                           ),
                         ],
@@ -101,7 +106,6 @@ class _SchedulePageState extends State<SchedulePage> {
               ),
             ),
             const SizedBox(height: 20),
-            // Calendar widget
             TableCalendar(
               firstDay: DateTime.utc(2020, 1, 1),
               lastDay: DateTime.utc(2030, 12, 31),
@@ -115,14 +119,14 @@ class _SchedulePageState extends State<SchedulePage> {
                   _focusedDay = focusedDay;
                 });
 
-                // Navigate to ClassDetailsPage when any date is selected
+                // Navigate to ClassDetailsPage with facultyNumber
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) {
-                      var classDetailsPage = ClassDetailsPage(selectedDay: selectedDay);
-                      return classDetailsPage;
-                    }, // Pass the selected date
+                    builder: (context) => ClassDetailsPage(
+                      selectedDay: selectedDay,
+                      facultyNumber: widget.facultyNumber,
+                    ),
                   ),
                 );
               },

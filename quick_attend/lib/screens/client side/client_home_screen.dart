@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
-import 'package:quick_attend/screens/admin%20side/admin_schedule_screen.dart';
 import 'package:quick_attend/screens/admin%20side/attendance_timer.dart';
+import 'package:quick_attend/screens/client%20side/client_profile.dart';
+import 'package:quick_attend/screens/client%20side/client_schedule_screen.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -17,7 +18,7 @@ class _HomeScreen extends State<HomeScreen> {
     const HomeTab(),
     const SchedulePage(),
     const SchedulePage(),
-    const SchedulePage(),
+    const ClientprofileScreen(),
   ];
 
   void _onItemTapped(int index) {
