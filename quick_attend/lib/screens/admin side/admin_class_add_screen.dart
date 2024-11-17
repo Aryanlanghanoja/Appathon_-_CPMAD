@@ -27,6 +27,9 @@ class _ClassDetailsPageState extends State<ClassDetailsPage> {
   final TextEditingController numberOfStudentsController =
       TextEditingController();
 
+  List<String> courseNames = [];
+  String? selectedCourseName;
+
   @override
   void initState() {
     super.initState();
@@ -39,6 +42,23 @@ class _ClassDetailsPageState extends State<ClassDetailsPage> {
 
     // Fetch and display the current location
     await _fetchCurrentLocation();
+
+    // Fetch course names
+    await _fetchCourseNames();
+  }
+
+  Future<void> _fetchCourseNames() async {
+    try {
+      QuerySnapshot querySnapshot =
+          await FirebaseFirestore.instance.collection('courses').get();
+      setState(() {
+        courseNames = querySnapshot.docs
+            .map((doc) => doc['course_name'] as String)
+            .toList();
+      });
+    } catch (e) {
+      _showSnackbar('Failed to fetch courses: $e');
+    }
   }
 
   Future<void> _fetchCurrentLocation() async {
@@ -161,6 +181,29 @@ class _ClassDetailsPageState extends State<ClassDetailsPage> {
     }
   }
 
+  Widget _buildSubjectDropdown() {
+    return DropdownButtonFormField<String>(
+      value: selectedCourseName,
+      hint: const Text('Select a Subject'),
+      items: courseNames.map((course) {
+        return DropdownMenuItem<String>(
+          value: course,
+          child: Text(course),
+        );
+      }).toList(),
+      onChanged: (value) {
+        setState(() {
+          selectedCourseName = value;
+          subjectController.text = value!; // Set the selected value
+        });
+      },
+      decoration: InputDecoration(
+        labelText: 'Subject',
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -189,7 +232,7 @@ class _ClassDetailsPageState extends State<ClassDetailsPage> {
               const SizedBox(height: 16),
               _buildTextField(classNameController, 'Class Name'),
               const SizedBox(height: 16),
-              _buildTextField(subjectController, 'Subject'),
+              _buildSubjectDropdown(), // Dropdown for Subject
               const SizedBox(height: 16),
               _buildTextField(batchNameController, 'Batch Name'),
               const SizedBox(height: 16),
