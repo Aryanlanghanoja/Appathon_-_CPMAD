@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:quick_attend/screens/client%20side/client_home_screen.dart';
 import 'package:quick_attend/screens/client%20side/client_registration.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class ClientLoginScreen extends StatefulWidget {
@@ -36,8 +37,11 @@ Future<void> _loginAdmin() async {
       if (userDoc['password'] == password) {
         // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Login successful!')),
+          const SnackBar(content: Text('Login successful!')),         
         );
+
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('Enrollemt_No', _enrollNoController.text);
 
         // Navigate to AdminHomeScreen
         Navigator.pushReplacement(
