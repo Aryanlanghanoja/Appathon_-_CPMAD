@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:quick_attend/screens/client%20side/client_attendance_response.dart';
+import 'package:quick_attend/screens/client%20side/client_response.dart';
 import 'client_profile.dart'; // Include the client profile
 
 class HomeScreen extends StatefulWidget {
@@ -21,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // Screens for navigation
     final List<Widget> _screens = [
       const HomeTab(),
-      const Placeholder(), // Replace with the actual "Report" screen
+      ClassListPage(), // Replace with the actual "Report" screen
       const Placeholder(), // Replace with the actual "Schedule" screen
       ClientProfileScreen(), // Profile screen with parameter
     ];
@@ -245,8 +246,6 @@ class _HomeTabState extends State<HomeTab> {
                                           InputFormScreen(),
                                     ),
                                   );
-
-
                                 },
                               ),
                       ),
