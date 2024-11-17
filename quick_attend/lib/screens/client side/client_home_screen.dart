@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'package:quick_attend/screens/client%20side/client_attendance_response.dart';
 import 'client_profile.dart'; // Include the client profile
 
 class HomeScreen extends StatefulWidget {
@@ -236,6 +237,16 @@ class _HomeTabState extends State<HomeTab> {
                                     color: Colors.teal),
                                 onPressed: () {
                                   markAttendanceTaken(classId);
+
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          InputFormScreen(),
+                                    ),
+                                  );
+
+
                                 },
                               ),
                       ),
