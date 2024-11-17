@@ -3,7 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class AdminReportScreen extends StatefulWidget {
-  const AdminReportScreen({super.key});
+  final String classId;
+  final String subjectName;
+  final String facultyName;
+
+  const AdminReportScreen({
+    super.key,
+    required this.classId,
+    required this.subjectName,
+    required this.facultyName,
+  });
 
   @override
   State<AdminReportScreen> createState() => _AdminReportScreen();

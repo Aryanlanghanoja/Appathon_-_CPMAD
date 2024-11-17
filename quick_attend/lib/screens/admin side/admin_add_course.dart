@@ -19,6 +19,7 @@ class AddCoursePage extends StatefulWidget {
   const AddCoursePage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _AddCoursePageState createState() => _AddCoursePageState();
 }
 
@@ -31,6 +32,8 @@ class _AddCoursePageState extends State<AddCoursePage> {
     'Computer Science',
   ];
   String? selectedCourse; // Holds the currently selected course
+  final TextEditingController _courseIdController = TextEditingController();
+  final TextEditingController _facultyNoController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -38,137 +41,153 @@ class _AddCoursePageState extends State<AddCoursePage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
-              Navigator.pushReplacement(
-        // ignore: use_build_context_synchronously
-        context,
-        MaterialPageRoute(
-          builder: (context) => const AdminProfileScreen(),
-        ),
-      ); // Navigate back
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const AdminProfileScreen(),
+              ),
+            ); // Navigate back
           },
         ),
-        title: Text('Add Course', style: TextStyle(color: Colors.white)),
+        title: const Text('Add Course', style: TextStyle(color: Colors.white)),
         centerTitle: true,
         backgroundColor: Colors.teal,
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(height: 20),
-          CircleAvatar(
-            radius: 40,
-            backgroundColor: Colors.grey.shade200,
-            child: Icon(
-              Icons.book,
-              size: 40,
-              color: Colors.teal,
-            ),
-          ),
-          SizedBox(height: 10),
-          Text(
-            "Add Course Details",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              children: [
-                DropdownButtonFormField<String>(
-                  value: selectedCourse,
-                  items: courseNames.map((course) {
-                    return DropdownMenuItem<String>(
-                      value: course,
-                      child: Text(course),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      selectedCourse = value; // Update selected course
-                    });
-                  },
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Color(0xFFD9D9D9),
-                    hintText: 'Select Course Name',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide.none,
-                    ),
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                  ),
-                ),
-                SizedBox(height: 15),
-                CourseField(label: 'Course ID'),
-              ],
-            ),
-          ),
-          SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {
-              // Add button logic
-              if (selectedCourse != null) {
-                print('Course Name: $selectedCourse');
-                // Additional logic for course ID and actions
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Please select a course name')),
-                );
-              }
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.teal,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(height: 20),
+            CircleAvatar(
+              radius: 40,
+              backgroundColor: Colors.grey.shade200,
+              child: const Icon(
+                Icons.book,
+                size: 40,
+                color: Colors.teal,
               ),
-              padding: EdgeInsets.symmetric(horizontal: 40, vertical: 12),
             ),
-            child: Text(
-              'Add',
-              style: TextStyle(fontSize: 16, color: Colors.white),
+            const SizedBox(height: 10),
+            const Text(
+              "Add Course Details",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-          ),
-        ],
+            const SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                children: [
+                  DropdownButtonFormField<String>(
+                    value: selectedCourse,
+                    items: courseNames.map((course) {
+                      return DropdownMenuItem<String>(
+                        value: course,
+                        child: Text(
+                          course,
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedCourse = value; // Update selected course
+                      });
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Select Course Name',
+                      filled: true,
+                      fillColor: Colors.grey[200],
+                      contentPadding: const EdgeInsets.symmetric(
+                        vertical: 20,
+                        horizontal: 20,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 15),
+                  TextField(
+                    controller: _courseIdController,
+                    decoration: InputDecoration(
+                      labelText: 'Course ID',
+                      filled: true,
+                      fillColor: Colors.grey[200],
+                      contentPadding: const EdgeInsets.symmetric(
+                        vertical: 20,
+                        horizontal: 20,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                  ),
+                  // const SizedBox(height: 15),
+                  // TextField(
+                  //   controller: _facultyNoController,
+                  //   decoration: InputDecoration(
+                  //     labelText: 'Enter your Faculty No.',
+                  //     filled: true,
+                  //     fillColor: Colors.grey[200],
+                  //     contentPadding: const EdgeInsets.symmetric(
+                  //       vertical: 20,
+                  //       horizontal: 20,
+                  //     ),
+                  //     border: OutlineInputBorder(
+                  //       borderRadius: BorderRadius.circular(20),
+                  //       borderSide: BorderSide.none,
+                  //     ),
+                  //   ),
+                  // ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                if (selectedCourse != null &&
+                    _courseIdController.text.isNotEmpty) {
+                  print('Course Name: $selectedCourse');
+                  print('Course ID: ${_courseIdController.text}');
+                  print('Faculty No: ${_facultyNoController.text}');
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Please fill all fields')),
+                  );
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.teal,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+              ),
+              child: const Text(
+                'Add',
+                style: TextStyle(fontSize: 16, color: Colors.white),
+              ),
+            ),
+          ],
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: [
+        items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.assessment), label: 'Report'),
-          BottomNavigationBarItem(icon: Icon(Icons.schedule), label: 'Schedule'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.assessment), label: 'Report'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.schedule), label: 'Schedule'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
         selectedItemColor: Colors.teal,
         unselectedItemColor: Colors.grey,
         type: BottomNavigationBarType.fixed,
-      ),
-    );
-  }
-}
-
-class CourseField extends StatelessWidget {
-  final String label;
-
-  const CourseField({super.key, required this.label});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Color(0xFFD9D9D9), // Background color for the input box
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: TextField(
-        decoration: InputDecoration(
-          hintText: label,
-          border: OutlineInputBorder(
-            borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-        ),
       ),
     );
   }
