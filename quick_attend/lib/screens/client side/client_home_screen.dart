@@ -22,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
       const HomeTab(),
       const Placeholder(), // Replace with the actual "Report" screen
       const Placeholder(), // Replace with the actual "Schedule" screen
-      ClientprofileScreen(enroll_no: widget.enroll_no,), // Profile screen with parameter
+      ClientProfileScreen(), // Profile screen with parameter
     ];
 
     void _onItemTapped(int index) {
@@ -107,7 +107,7 @@ class _HomeTabState extends State<HomeTab> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Hello Admin!',
+                    'Hello Student!',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -219,7 +219,8 @@ class _HomeTabState extends State<HomeTab> {
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
-                        title: Text(classData['sub_name'] ?? 'Unknown Subject'),
+                        title: Text(
+                            classData['subject_name'] ?? 'Unknown Subject'),
                         subtitle: Text(
                             'Faculty: ${classData['faculty_name'] ?? 'N/A'}'),
                         trailing: isAttendanceTaken
