@@ -40,14 +40,32 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white, // Set background color to white
-      body: Stack(
-        alignment: Alignment.center,
-        children: [
+      body: Center(
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
 
+            Positioned(
+              // bottom: 50, // Place logo at the bottom
+              child: Image.asset(
+                'assets/Images/Logo.jpg',
+                // width: 150, // Adjust the width
+                // height: 150, // Adjust the height
+                // fit: BoxFit.contain,
+              ),
+            ),
+            // Lottie animation with defined size
+            Lottie.asset(
+              "assets/animation/loader.json",
+              width: 200, // Adjust the width
+              height: 200, // Adjust the height
+              fit: BoxFit.contain, // Ensure it fits within its bounds
+            ),
 
-          // Lottie animation
-          Lottie.asset("assets/animation/loader.json"),
-        ],
+            // Logo with defined size and position
+
+          ],
+        ),
       ),
     );
   }
