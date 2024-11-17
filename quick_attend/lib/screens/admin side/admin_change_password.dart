@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quick_attend/screens/admin%20side/admin_profile.dart';
 
 void main() => runApp(MyApp());
 
@@ -25,6 +26,18 @@ class UpdateProfilePage extends StatelessWidget {
         title: Text('Profile'),
         centerTitle: true,
         backgroundColor: Colors.teal,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+          Navigator.pushReplacement(
+        // ignore: use_build_context_synchronously
+        context,
+        MaterialPageRoute(
+          builder: (context) => const AdminProfileScreen(),
+        ),
+      );
+          },
+        ),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
