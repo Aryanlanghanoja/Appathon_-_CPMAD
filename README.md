@@ -1,6 +1,6 @@
 # Appathon_-_CPMAD
 
-# 📚 Faculty Attendance Management App
+# 📚 Faculty Attendance Management App - Quick Attend
 
 Welcome to the **Faculty Attendance Management App**! This app is designed to streamline the attendance-taking process for faculty, saving valuable time and improving accuracy. With just a few taps, faculty can initiate an attendance session, and students can mark their attendance in real time.
 
